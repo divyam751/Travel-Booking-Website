@@ -1,0 +1,121 @@
+.bookingPage {
+  width: 100%;
+  min-height: 100vh;
+  padding-top: 80px;
+}
+
+/* Container */
+
+.booking-container {
+  max-width: 500px;
+  margin: 20px auto;
+  padding: 20px;
+  /* background-color: #f9f9f9;
+  border: 1px solid #ddd; */
+  border-radius: 8px;
+  /* box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); */
+}
+
+.booking-title {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.8rem;
+  color: #333;
+}
+
+.booking-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Input Fields */
+.booking-select-container,
+.booking-textarea-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.booking-label {
+  font-size: 1rem;
+  color: #555;
+}
+
+.booking-select,
+.booking-textarea {
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline: none;
+  transition: border-color 0.3s ease-in-out;
+}
+
+.booking-select:focus,
+.booking-textarea:focus {
+  border-color: #007bff;
+}
+
+.booking-textarea {
+  resize: none;
+}
+
+/* Submit Button */
+.booking-submit-btn {
+  padding: 12px;
+  font-size: 1rem;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.booking-submit-btn:hover {
+  background-color: #0056b3;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .booking-container {
+    padding: 15px;
+    margin: 10px;
+  }
+
+  .booking-title {
+    font-size: 1.5rem;
+  }
+
+  .booking-form {
+    gap: 15px;
+  }
+
+  .booking-submit-btn {
+    font-size: 0.9rem;
+  }
+}
+@media (max-width: 320px) {
+  .booking-container {
+    zoom: 90%;
+  }
+}
+
+.booking__TicketCounter {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  margin: 10px 0px;
+}
+.ticketCounter {
+  display: flex;
+  gap: 10px;
+  font-weight: bold;
+  align-items: center;
+}
+.ticketCounter > button {
+  width: 30px;
+  height: 30px;
+  font-weight: bold;
+}

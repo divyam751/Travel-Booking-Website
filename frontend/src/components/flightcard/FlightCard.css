@@ -1,0 +1,253 @@
+/* Structure */
+.flightCardsBody {
+  padding-top: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+  width: 100%;
+  background-color: rgb(220, 236, 241);
+}
+.flightContianer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  height: 200px;
+  width: 100%;
+  max-width: 1020px;
+  background-color: white;
+}
+.section1 {
+  display: flex;
+  align-items: center;
+  height: 22%;
+  width: 100%;
+  border-bottom: 1px solid rgb(195, 195, 195);
+  /* border-top: 1px solid rgb(195, 195, 195); */
+  gap: 10px;
+}
+.sectionLeft {
+  display: flex;
+  align-items: center;
+  background-color: #fde5e5;
+  height: 100%;
+  width: 90%;
+  padding-left: 15px;
+  gap: 10px;
+}
+
+.section2 {
+  display: flex;
+  align-items: center;
+  align-items: center;
+  justify-content: center;
+  height: 60%;
+  width: 94%;
+  border-bottom: 1px solid rgb(195, 195, 195);
+  padding-left: 15px;
+  gap: 10px;
+}
+.section3 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 20%;
+  width: 94%;
+  padding-left: 15px;
+  gap: 10px;
+}
+
+/*  Section 1 */
+.deal {
+  height: 30px;
+  width: 60px;
+  font-size: small;
+  background-color: #22c35e;
+  color: white;
+  border: none;
+  border-radius: 10px;
+}
+
+/* Section 2 */
+.devider1 {
+  display: flex;
+  align-items: center;
+  width: 50%;
+  justify-content: space-between;
+  padding-right: 7%;
+}
+.flightDetails {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}
+.flightLogo {
+  height: 50px;
+  width: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.flightLogo > img {
+  width: 100%;
+}
+.flightName {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.flightName :nth-child(2) {
+  color: gray;
+  font-size: small;
+}
+
+.timeSection {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.line {
+  width: 80px;
+  height: 3px;
+  margin: 20px;
+  background-color: rgb(195, 195, 195);
+}
+.timeBox :first-child {
+  font-weight: bold;
+}
+.timeBox :last-child {
+  font-size: small;
+}
+
+.devider2 {
+  display: flex;
+  align-items: center;
+  width: 50%;
+  border-left: 2px solid rgb(195, 195, 195);
+  justify-content: space-between;
+  padding: 0 30px 0 30px;
+}
+.totalTime :first-child {
+  font-weight: bold;
+}
+.totalTime :last-child {
+  font-size: small;
+}
+.flightPrice {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}
+.flightPrice :first-child {
+  font-weight: bold;
+  font-size: 27px;
+}
+
+/* Section 3 */
+.flightFooter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.mealSection {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 10px 0 10px;
+  border-right: 2px solid rgba(107, 106, 106, 0.747);
+}
+.emissions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 10px 0 10px;
+}
+
+.flightBookNowBtn {
+  padding: 10px 15px;
+  border-radius: 10px;
+  cursor: pointer;
+  border: 2px solid #c53030;
+  color: #c53030;
+  background-color: white;
+}
+.flightBookNowBtn:hover {
+  background-color: #c53030;
+  color: white;
+}
+
+@media only Screen and (max-width: 1020px) {
+  .flightCardsBody {
+    padding-top: 100px;
+    display: flex;
+    padding-left: 25px;
+    gap: 40px;
+    width: 100%;
+  }
+  .flightContianer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    height: 400px;
+    width: 90%;
+  }
+  .section2 {
+    display: flex;
+
+    align-items: flex-start;
+    justify-content: center;
+    flex-direction: column;
+    height: 60%;
+    width: 94%;
+    border-bottom: 1px solid rgb(195, 195, 195);
+    z-index: 0;
+    gap: 40px;
+  }
+  .devider1 {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: space-evenly;
+    padding-right: 7%;
+  }
+  .devider2 {
+    display: flex;
+    align-items: center;
+
+    width: 100%;
+    border-left: 2px solid white;
+    justify-content: space-evenly;
+    padding: 0px;
+  }
+}
+@media only Screen and (max-width: 540px) {
+  .flightCardsBody {
+    font-size: 10px;
+  }
+  .flightLogo {
+    width: 30px;
+    height: 30px;
+  }
+  .flightPrice {
+    flex-direction: column;
+  }
+  .line {
+    width: 40px;
+  }
+  .devider1 {
+    width: 100%;
+  }
+
+  .devider2 {
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+  }
+}

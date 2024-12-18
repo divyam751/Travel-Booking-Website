@@ -1,0 +1,97 @@
+/* Credit Card Container */
+.creditcard-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  perspective: 1000px;
+  width: 100%;
+  max-width: 400px;
+  margin: 20px auto;
+}
+
+.creditcard {
+  position: relative;
+  width: 100%;
+  padding-bottom: 63%; /* Aspect Ratio: 63% of width */
+  transform-style: preserve-3d;
+  transition: transform 0.6s ease-in-out;
+}
+
+.creditcard-container:hover .creditcard {
+  transform: rotateY(180deg);
+}
+
+/* Card Front & Back */
+.creditcard-front,
+.creditcard-back {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* background-color: #0073e6; */
+  background-color: #005bb5;
+  color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  backface-visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 20px;
+}
+
+/* Front Side Styles */
+.creditcard-front {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.creditcard-brand {
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: right;
+}
+
+.creditcard-number {
+  font-size: 1.5rem;
+  letter-spacing: 2px;
+  margin: 20px 0;
+  text-align: center;
+}
+
+.creditcard-name,
+.creditcard-valid {
+  font-size: 1rem;
+  text-transform: uppercase;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 10px;
+}
+
+/* Back Side Styles */
+.creditcard-back {
+  background-color: #005bb5;
+  transform: rotateY(180deg);
+}
+
+.creditcard-bar {
+  background-color: black;
+  height: 40px;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.creditcard-cvc,
+.creditcard-zip {
+  font-size: 1.2rem;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+@media (max-width: 320px) {
+  .creditcard-container {
+    zoom: 80%;
+  }
+}

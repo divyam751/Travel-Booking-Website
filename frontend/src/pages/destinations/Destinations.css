@@ -1,0 +1,119 @@
+.destinations-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  /* margin-top: -20px; */
+  /* background-color: black; */
+  /* background-color: #adb5bd; */
+}
+
+.destinations-container-header {
+  max-width: 868px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 40px;
+  margin-bottom: 30px;
+  margin-top: -10px;
+}
+.destinations-container-header > span:nth-child(1) {
+  font-weight: bold;
+  font-size: 40px;
+}
+.destinations-container-header > span:nth-child(2) {
+  font-size: 16px;
+}
+.destinations-container__parent {
+  display: flex;
+  gap: 40px;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.destinations-exploreBtn {
+  background-image: linear-gradient(
+    90deg,
+    #00adfd 0%,
+    #00c6fe 51%,
+    #00e3fe 100%
+  );
+  color: white;
+  font-size: 16px;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  position: relative; /* For the shine overlay */
+  overflow: hidden; /* Clip shine effect within the button */
+  background-size: 200% 100%; /* For subtle gradient animation */
+  animation: gradientShift 3s infinite linear;
+}
+
+.destinations-exploreBtn:hover {
+  transform: scale(1.1); /* Slight zoom effect on hover */
+  transition: transform 0.2s ease;
+}
+
+.destinations-exploreBtn::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -50%;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.5);
+  transform: skewX(-45deg);
+  transition: none;
+  animation: shine 2s infinite;
+}
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 100% 0%;
+  }
+}
+
+@keyframes shine {
+  0% {
+    left: -150%;
+  }
+  100% {
+    left: 150%;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .destinations-container__parent {
+    gap: 25px;
+  }
+  .destinations-box {
+    max-width: 350px;
+    /* max-height: 280px; */
+  }
+}
+@media only screen and (max-width: 425px) {
+  .destinations-container-header {
+    zoom: 80%;
+  }
+  .destinations-container__parent {
+    zoom: 80%;
+  }
+}
+@media only screen and (max-width: 370px) {
+  .destinations-container-header {
+    zoom: 80%;
+  }
+  .destinations-container__parent {
+    zoom: 80%;
+  }
+}

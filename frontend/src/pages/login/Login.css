@@ -1,0 +1,168 @@
+/* General Styles */
+
+.login-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  margin-top: 80px;
+  min-height: 100vh;
+}
+.login-formParent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  /* width: clamp(300px, 50%, 400px); */
+}
+
+.login-title {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.login-companyLogo {
+  width: 250px;
+  padding: 20px 0px 0px 0px;
+}
+
+.login-companySlogan {
+  margin-bottom: 40px;
+}
+
+.login-form {
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-label {
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.form-input {
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.password-input-container {
+  display: flex;
+  align-items: center;
+}
+
+.password-toggle-icon {
+  margin-left: -30px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  color: #888;
+}
+
+.login-submit-button {
+  padding: 10px 15px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.submit-button:hover {
+  background-color: #0056b3;
+}
+
+.forget-password-button,
+.new-member-button {
+  font-size: 0.9rem;
+  color: #007bff;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: center;
+  margin-top: 10px;
+  width: 100%;
+  text-align-last: left;
+}
+.new-member-button {
+  text-align-last: center;
+}
+
+.forget-password-button:hover {
+  color: #0056b3;
+  text-decoration: underline;
+}
+
+/* Popup Styles */
+
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 99;
+}
+
+.popup-container {
+  background: white;
+  padding: 20px;
+  border-radius: 5px;
+  width: 100%;
+  max-width: 440px;
+  text-align: center;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.popup-container h2 {
+  margin-bottom: 20px;
+}
+
+.close-popup-buttonBox {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+.close-popup-button {
+  cursor: pointer;
+}
+.close-popup-button:hover {
+  color: rgb(54, 53, 53);
+}
+
+.reset-password-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.reset-submit-button {
+  padding: 10px 15px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.reset-submit-button:hover {
+  background-color: #0056b3;
+}

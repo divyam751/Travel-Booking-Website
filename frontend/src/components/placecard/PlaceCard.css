@@ -1,0 +1,72 @@
+.placecard-box {
+  max-width: 380px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 30px;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  justify-content: center;
+  border-radius: 20px;
+  overflow: hidden;
+  background-color: #fff;
+  padding-bottom: 20px;
+  min-height: 400px; /* Reserve space to avoid shifts */
+}
+
+.placecard-box > img {
+  width: 100%;
+  height: 260px;
+  object-fit: cover; /* Prevent layout distortion */
+}
+
+.placecard-box__title {
+  font-weight: bold;
+  font-size: 30px;
+  min-height: 40px; /* Reserve height for title */
+}
+
+.placecard-box__duration {
+  font-size: 20px;
+  margin-top: -20px;
+  min-height: 25px; /* Reserve height for duration */
+}
+
+.placecard-box_price {
+  font-size: 16px;
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.placecard-box_price > button {
+  background-image: linear-gradient(90deg, #00adfd 0, #00c6fe 51%, #00e3fe);
+  border-radius: 40px;
+  color: #fff;
+  width: 100px;
+  padding: 14px 0px;
+  border: none;
+  font-weight: bold;
+}
+
+.placecard-box_price > button:hover {
+  cursor: pointer;
+  padding: 13px 0px;
+  border: 1px solid royalblue;
+}
+
+.placecard-box_priceTag {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
+}
+
+.placecard-box_priceTag > span:nth-child(1) {
+  font-size: 14px;
+}
+
+.placecard-box_priceTag > span:nth-child(2) {
+  font-size: 20px;
+}

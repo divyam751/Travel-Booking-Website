@@ -1,0 +1,33 @@
+.flights-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+}
+
+.flights-container-header {
+  max-width: 868px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 40px;
+  margin-bottom: 30px;
+  margin-top: -10px;
+}
+.flights-container-header > span:nth-child(1) {
+  font-weight: bold;
+  font-size: 40px;
+}
+.flights-container-header > span:nth-child(2) {
+  font-size: 16px;
+}
+.flights-container__parentBox {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+}

@@ -1,0 +1,90 @@
+/* Success Page Container */
+.success-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(to bottom right, #4facfe, #00f2fe);
+  font-family: "Arial", sans-serif;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Success Card */
+.success-card {
+  background-color: #ffffff;
+  max-width: 500px;
+  width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  padding: 30px;
+  animation: fadeIn 1s ease-in-out;
+}
+
+/* Success Icon */
+.success-icon {
+  font-size: 3rem;
+  margin-bottom: 10px;
+  color: #28a745;
+}
+
+/* Title */
+.success-title {
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+/* Message */
+.success-message {
+  font-size: 1.2rem;
+  color: #555;
+  margin-bottom: 15px;
+}
+
+/* Email Information */
+.success-email-info {
+  font-size: 1rem;
+  color: #777;
+  margin-bottom: 20px;
+}
+
+/* Footer */
+.success-footer {
+  margin-top: 20px;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+  .success-card {
+    padding: 20px;
+  }
+
+  .success-title {
+    font-size: 1.8rem;
+  }
+
+  .success-message {
+    font-size: 1rem;
+  }
+
+  .success-email-info {
+    font-size: 0.9rem;
+  }
+}
+
+/* Fade-in Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

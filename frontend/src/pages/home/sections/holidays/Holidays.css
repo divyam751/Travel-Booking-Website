@@ -1,0 +1,179 @@
+.holidays-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  margin-top: -70px;
+}
+
+.holidays-container-header {
+  max-width: 868px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 30px;
+}
+.holidays-container-header > span:nth-child(1) {
+  font-weight: bold;
+  font-size: 40px;
+}
+.holidays-container-header > span:nth-child(2) {
+  font-size: 16px;
+}
+.holidays-container__parent {
+  display: flex;
+  gap: 40px;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.holidays-box {
+  max-width: 380px;
+  /* max-height: 440px; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 30px;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  justify-content: center;
+  border-radius: 20px;
+  overflow: hidden;
+  background-color: #fff;
+  padding-bottom: 20px;
+}
+.holidays-box > img {
+  width: 100%;
+  height: 260px;
+}
+
+.holidays-box__title {
+  font-weight: bold;
+  font-size: 30px;
+}
+.holidays-box__duration {
+  font-size: 20px;
+  margin-top: -20px;
+}
+
+.holidays-box_price {
+  font-size: 16px;
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.holidays-box_price > button {
+  background-image: linear-gradient(90deg, #00adfd 0, #00c6fe 51%, #00e3fe);
+  border-radius: 40px;
+  color: #fff;
+  width: 100px;
+  padding: 14px 0px;
+  border: none;
+  font-weight: bold;
+}
+.holidays-box_price > button:hover {
+  cursor: pointer;
+  padding: 13px 0px;
+  border: 1px solid royalblue;
+}
+
+.holidays-box_priceTag {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
+}
+.holidays-box_priceTag > span:nth-child(1) {
+  font-size: 14px;
+}
+.holidays-box_priceTag > span:nth-child(2) {
+  font-size: 20px;
+}
+
+.holidays-exploreBtn {
+  background-image: linear-gradient(
+    90deg,
+    #00adfd 0%,
+    #00c6fe 51%,
+    #00e3fe 100%
+  );
+  color: white;
+  font-size: 16px;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  position: relative; /* For the shine overlay */
+  overflow: hidden; /* Clip shine effect within the button */
+  background-size: 200% 100%; /* For subtle gradient animation */
+  animation: gradientShift 3s infinite linear;
+}
+
+.holidays-exploreBtn:hover {
+  transform: scale(1.1); /* Slight zoom effect on hover */
+  transition: transform 0.2s ease;
+}
+
+.holidays-exploreBtn::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -50%;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.5);
+  transform: skewX(-45deg);
+  transition: none;
+  animation: shine 2s infinite;
+}
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 100% 0%;
+  }
+}
+
+@keyframes shine {
+  0% {
+    left: -150%;
+  }
+  100% {
+    left: 150%;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .holidays-container__parent {
+    gap: 25px;
+  }
+  .holidays-box {
+    max-width: 350px;
+    /* max-height: 280px; */
+  }
+}
+@media only screen and (max-width: 425px) {
+  .holidays-container-header {
+    zoom: 80%;
+  }
+  .holidays-container__parent {
+    zoom: 80%;
+  }
+}
+@media only screen and (max-width: 370px) {
+  .holidays-container-header {
+    zoom: 80%;
+  }
+  .holidays-container__parent {
+    zoom: 80%;
+  }
+}

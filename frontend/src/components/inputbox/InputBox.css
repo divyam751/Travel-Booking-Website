@@ -1,0 +1,59 @@
+.inputBox-container {
+  min-width: 300px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.inputBox-container > input {
+  width: 100%;
+  font-size: 16px;
+  padding: 14px 10px;
+  border: 1px solid grey;
+  border-radius: 8px;
+  outline: none;
+  background-color: transparent;
+  z-index: 1;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.inputBox-container > input:focus {
+  border: 2px solid royalblue;
+}
+
+.inputBox-container > span {
+  transition: all 0.3s ease-in-out;
+  background-color: white;
+  pointer-events: none;
+}
+
+.inputBox-Empty {
+  font-size: 16px;
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: gray;
+}
+.inputBox-focus {
+  font-size: 14px;
+  position: absolute;
+  left: 15px;
+  transform: translateY(-25px);
+  padding: 0 4px;
+  background-color: white;
+  color: royalblue;
+  z-index: 1;
+}
+
+.inputBox-NotEmpty {
+  color: gray;
+}
+
+.inputBox-showBtn {
+  position: absolute;
+  right: 20px;
+  z-index: 5;
+  cursor: pointer;
+}

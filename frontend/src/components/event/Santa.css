@@ -1,0 +1,82 @@
+.santa-button__img {
+  transition: transform 0.3s ease;
+  width: 150px;
+}
+
+.santa-button__img:hover {
+  animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+  0% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  50% {
+    transform: translateX(5px);
+  }
+  75% {
+    transform: translateX(-5px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.running-santa {
+  position: fixed;
+  top: 10%;
+  /* right: -150px; */
+  right: 0px;
+  width: 150px;
+  z-index: 5;
+  animation: moveSanta 7s linear infinite;
+  /* display: flex;
+  align-items: center;
+  justify-content: center; */
+}
+.running-santa > img {
+  width: 100%;
+}
+.running-santa > img:nth-child(2) {
+  transform: rotate(-30deg);
+  height: 50%;
+  margin-left: -60px;
+  margin-top: -20px;
+}
+
+@keyframes moveSanta {
+  0% {
+    right: -150px;
+    top: 10%;
+  }
+  100% {
+    right: 100vw;
+    top: 90%;
+  }
+}
+
+.santa-showButton {
+  position: fixed;
+  bottom: -20px;
+  right: -10px;
+  padding: 10px 20px;
+  background-color: transparent;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  z-index: 2;
+}
+
+@media only screen and (max-width: 425px) {
+  .santa-button__img {
+    width: 80px;
+  }
+  .santa-showButton {
+    bottom: -10px;
+  }
+}

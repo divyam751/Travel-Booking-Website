@@ -1,0 +1,69 @@
+/* General Section Styles */
+.section {
+  position: relative;
+  width: 100%;
+  /* min-height: 100vh; */
+  overflow: hidden;
+}
+
+/* Hero Section */
+.hero-section {
+  /* position: fixed;  */
+  top: 0;
+  left: 0;
+  width: 100%;
+  min-height: 100vh;
+  background-image: url("../../assets/images/home/background.webp");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1; /* Ensures it stays behind other sections */
+  /* margin-top: 40px; */
+}
+
+/* Other Sections */
+.aboutus-section,
+.hotels-section,
+.flights-section,
+.holidays-section,
+.contactus-section {
+  /* background-color: #eaeaea; */
+  /* padding-top: 10px; */
+  /* min-height: 100vh; */
+  z-index: 2;
+  position: relative;
+  /* padding: 50px 20px; */
+}
+.holidays-section {
+  padding-top: 50px;
+}
+/* Alternate Background Colors for Clarity */
+.aboutus-section {
+  /* background-color: #f8f9fa; */
+}
+.hotels-section {
+  /* background-color: #dee2e6; */
+}
+.flights-section {
+  background-color: #ced4da;
+}
+.holidays-section {
+  background-color: #adb5bd;
+}
+.contactus-section {
+  /* background-color: #6c757d; */
+}
+
+@media (max-width: 450px) {
+  .hotels-section {
+    min-height: 20vh;
+    /* margin-top: -20px; */
+    /* padding-top: 0px; */
+  }
+  .flights-section {
+    margin-top: -100px;
+  }
+}
