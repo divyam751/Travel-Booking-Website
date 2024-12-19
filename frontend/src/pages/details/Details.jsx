@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import "./Details.css";
 import { DataContext } from "../../context/DataContext";
 import { BookingContext } from "../../context/BookingContext";
@@ -14,12 +14,13 @@ const Details = () => {
   const hotelDetails = hotels.find((hotel) => hotel._id === booking.hotel);
   const flightDetails = flights.find((flight) => flight._id === booking.flight);
 
-  //   console.log({ booking, placeDetails, hotelDetails, flightDetails });
-
   const handleProceedToPay = () => {
-    // alert("Proceeding to Payment...");
     navigate("/checkout");
   };
+
+  useEffect(() => {
+    window.scrollTo(0, 0); // Scroll to the top
+  }, []);
 
   return (
     <div className="details-container">
