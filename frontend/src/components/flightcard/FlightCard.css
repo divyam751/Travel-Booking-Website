@@ -196,7 +196,7 @@
     align-items: center;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     height: 400px;
-    width: 90%;
+    /* width: 90%; */
   }
   .section2 {
     display: flex;
@@ -249,5 +249,16 @@
     display: flex;
     width: 100%;
     justify-content: space-around;
+  }
+}
+
+@media (max-width: 375px) {
+  .flightContianer {
+    zoom: 90%;
+  }
+}
+@media (max-width: 320px) {
+  .flightContianer {
+    zoom: 80%;
   }
 }

@@ -2,9 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import "./Flights.css";
 
 import { DataContext } from "../../context/DataContext";
-import HotelCard from "../../components/hotelcard/HotelCard";
 import FlightCard from "../../components/flightcard/FlightCard";
-// import PlaceCard from "../../components/placecard/PlaceCard";
 
 const Flights = () => {
   const { flights } = useContext(DataContext);
