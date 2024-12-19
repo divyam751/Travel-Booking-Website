@@ -174,17 +174,13 @@ const Login = () => {
       });
       return;
     }
-    // ======================
-    console.log({ forgetEmail });
+
     try {
-      const response = await axios.post(
-        "http://localhost:3000/api/v1/users/forget-password",
-        {
-          email: forgetEmail,
-          otp,
-          newPassword,
-        }
-      );
+      const response = await axios.post(`${API_URL}/users/forget-password`, {
+        email: forgetEmail,
+        otp,
+        newPassword,
+      });
 
       if (response.data.status === "success") {
         setToastData({

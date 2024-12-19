@@ -12,7 +12,6 @@ export const BookingProvider = ({ children }) => {
 
   // Save booking to sessionStorage whenever it changes
   useEffect(() => {
-    console.log("Booking called");
     if (booking && Object.keys(booking).length > 0) {
       sessionStorage.setItem("booking", JSON.stringify(booking));
     }

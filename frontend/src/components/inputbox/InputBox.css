@@ -20,6 +20,7 @@
 
 .inputBox-container > input:focus {
   border: 2px solid royalblue;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
 
 .inputBox-container > span {
@@ -46,6 +47,16 @@
   color: royalblue;
   z-index: 1;
 }
+.inputBox-varified {
+  font-size: 14px;
+  position: absolute;
+  left: 15px;
+  transform: translateY(-25px);
+  padding: 0 4px;
+  background-color: white;
+  color: gray;
+  z-index: 1;
+}
 
 .inputBox-NotEmpty {
   color: gray;
@@ -56,4 +67,21 @@
   right: 20px;
   z-index: 5;
   cursor: pointer;
+}
+.inputBox-varifiedBtn {
+  position: absolute;
+  right: 20px;
+  z-index: 5;
+  font-size: 12px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: green;
+  color: white;
+  padding: 5px 7px;
+  border-radius: 10px;
+  gap: 2px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset,
+    rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
 }

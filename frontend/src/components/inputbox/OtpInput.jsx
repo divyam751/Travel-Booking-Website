@@ -3,6 +3,7 @@ import "./OtpInput.css";
 import axios from "axios";
 import { useLoading } from "../../context/LoadingContext";
 import { useNavigate } from "react-router";
+import { API_URL } from "../../constant";
 
 const OtpInput = ({ setToastData, email, setIsOtpPopupVisible, nextRoute }) => {
   const [otp, setOtp] = useState(new Array(6).fill(""));
@@ -59,13 +60,10 @@ const OtpInput = ({ setToastData, email, setIsOtpPopupVisible, nextRoute }) => {
     }
 
     try {
-      const response = await axios.post(
-        "http://localhost:3000/api/v1/users/check-otp",
-        {
-          email,
-          otp: otp.join(""),
-        }
-      );
+      const response = await axios.post(`${API_URL}/users/check-otp`, {
+        email,
+        otp: otp.join(""),
+      });
 
       if (response.data.status === "success") {
         setToastData({
@@ -115,10 +113,9 @@ const OtpInput = ({ setToastData, email, setIsOtpPopupVisible, nextRoute }) => {
       }
 
       // Make POST request to resend OTP
-      const response = await axios.post(
-        "http://localhost:3000/api/v1/users/resend-otp",
-        { email }
-      );
+      const response = await axios.post(`${API_URL}/users/resend-otp`, {
+        email,
+      });
 
       // Check response status and provide feedback
       if (response.data.status === "success") {

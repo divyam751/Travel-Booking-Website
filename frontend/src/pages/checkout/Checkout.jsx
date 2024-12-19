@@ -75,16 +75,11 @@ const CheckoutForm = () => {
         // Save booking only on successful payment
         const bookingResult = await saveBooking(user.transactionId);
         if (bookingResult.success) {
-          setToastData({
-            type: "success",
-            message: "Payment successful!",
-            trigger: !toastData.trigger,
-          });
           sessionStorage.clear();
 
           setTimeout(() => {
             navigate("/success");
-          }, 3000);
+          }, 1000);
         } else {
           setToastData({
             type: "error",
@@ -144,8 +139,6 @@ const CheckoutForm = () => {
 
   const getUpdatedTotalAmount = async () => {
     const apiUrl = `${API_URL}/booking/total-amount`;
-    console.log("User transaction ID ...............\n");
-    console.log(typeof user.transactionId);
 
     try {
       const response = await fetch(apiUrl, {
@@ -161,7 +154,6 @@ const CheckoutForm = () => {
 
       // Handle API response structure
       if (response.ok && data.status === "success") {
-        console.log(data.data);
         setPayableAmount(data.data.totalAmount);
         return;
       } else {

@@ -12,7 +12,7 @@ const VisaCard = () => {
           <div className="creditcard-name">VOYAWANDER</div>
           <div className="creditcard-valid">
             <span>VALID THRU</span>
-            <span>12/24</span>
+            <span>12/26</span>
           </div>
         </div>
 

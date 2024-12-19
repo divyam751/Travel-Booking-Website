@@ -12,14 +12,14 @@ import { API_URL } from "../../constant";
 
 const Register = () => {
   const { startLoading, stopLoading } = useLoading();
-  const [formData, setFormData] = useState({
-    fullname: "",
-    email: "",
-    password: "",
-  });
+  const [email, setEmail] = useState(""); // Retrieve email from session storage if available
   const [otp, setOtp] = useState("");
   const [isOtpPopupVisible, setIsOtpPopupVisible] = useState(false);
-  const [email, setEmail] = useState("");
+  const [isEmailVerified, setIsEmailVerified] = useState(false);
+  const [formData, setFormData] = useState({
+    fullname: "",
+    password: "",
+  });
 
   const [toastData, setToastData] = useState({
     type: null,
@@ -33,18 +33,69 @@ const Register = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const validateForm = () => {
-    const { fullname, email, password } = formData;
-    if (!fullname || !email || !password) {
-      return "All fields are required!";
+  const validateEmail = () => {
+    if (!email) {
+      return "Email is required!";
     }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       return "Please enter a valid email address!";
+    }
+    return null;
+  };
+
+  const validateForm = () => {
+    const { fullname, password } = formData;
+    if (!fullname || !password) {
+      return "Full Name and Password are required!";
     }
     if (password.length < 6) {
       return "Password must be at least 6 characters long!";
     }
     return null;
+  };
+
+  const handleSendOtp = async (e) => {
+    e.preventDefault();
+    startLoading();
+
+    const validationError = validateEmail();
+    if (validationError) {
+      setToastData({
+        type: "error",
+        message: validationError,
+        trigger: Date.now(),
+      });
+      stopLoading();
+      return;
+    }
+
+    try {
+      const response = await axios.post(`${API_URL}/users/verify-email`, {
+        email,
+      });
+
+      if (response.data.status === "success") {
+        sessionStorage.setItem("email", email); // Save email in session storage
+        setIsEmailVerified(true);
+        setIsOtpPopupVisible(true);
+      } else {
+        setToastData({
+          type: "error",
+          message: response.data.message || "Email verification failed",
+          trigger: Date.now(),
+        });
+      }
+    } catch (error) {
+      setToastData({
+        type: "error",
+        message:
+          error.response?.data?.message ||
+          "An error occurred while sending OTP",
+        trigger: Date.now(),
+      });
+    } finally {
+      stopLoading();
+    }
   };
 
   const handleRegister = async (e) => {
@@ -63,12 +114,21 @@ const Register = () => {
     }
 
     try {
-      const response = await axios.post(`${API_URL}/users/register`, formData);
+      const response = await axios.post(`${API_URL}/users/register`, {
+        fullname: formData.fullname,
+        email,
+        password: formData.password,
+      });
 
       if (response.data.status === "success") {
-        setEmail(formData.email); // Save email for OTP verification
-        setIsOtpPopupVisible(true);
-        setFormData({ fullname: "", email: "", password: "" }); // Reset form
+        setToastData({
+          type: "success",
+          message: response.data.message,
+          trigger: Date.now(),
+        });
+        setTimeout(() => {
+          navigate("/login");
+        }, 2000);
       } else {
         setToastData({
           type: "error",
@@ -88,7 +148,12 @@ const Register = () => {
       stopLoading();
     }
   };
+
   useEffect(() => {
+    if (sessionStorage.getItem("email")) {
+      setEmail(sessionStorage.getItem("email"));
+      setIsEmailVerified(true);
+    }
     window.scrollTo(0, 0); // Scroll to the top
   }, []);
 
@@ -99,49 +164,65 @@ const Register = () => {
         <span className="register-companySlogan">
           Your ultimate travel companion!{" "}
         </span>
-        <form className="register-form" onSubmit={handleRegister}>
-          <InputBox
-            type={"text"}
-            name={"fullname"}
-            label={"Full Name"}
-            value={formData.fullname}
-            width={"400px"}
-            onChange={handleInputChange}
-          />
-          <InputBox
-            type={"email"}
-            name={"email"}
-            label={"Email"}
-            value={formData.email}
-            width={"400px"}
-            onChange={handleInputChange}
-          />
-          <InputBox
-            type={"password"}
-            name={"password"}
-            label={"Password"}
-            value={formData.password}
-            width={"400px"}
-            onChange={handleInputChange}
-          />
+        {
+          <form className="register-form" onSubmit={handleSendOtp}>
+            <InputBox
+              type="email"
+              name="email"
+              label="Email"
+              value={email}
+              width="400px"
+              onChange={(e) => setEmail(e.target.value)}
+              isDisabled={isOtpPopupVisible || isEmailVerified}
+            />
+            {!isEmailVerified && (
+              <button type="submit" className="submit-button">
+                Send OTP
+              </button>
+            )}
+          </form>
+        }
+        <br />
+        {isEmailVerified && (
+          <form className="register-form" onSubmit={handleRegister}>
+            <InputBox
+              type="text"
+              name="fullname"
+              label="Full Name"
+              value={formData.fullname}
+              width="400px"
+              onChange={handleInputChange}
+              isDisabled={!isEmailVerified}
+            />
+            <InputBox
+              type="password"
+              name="password"
+              label="Password"
+              value={formData.password}
+              width="400px"
+              onChange={handleInputChange}
+              isDisabled={!isEmailVerified}
+            />
+            <button type="submit" className="submit-button">
+              Register
+            </button>
+          </form>
+        )}
 
-          <button type="submit" className="submit-button">
-            Register
-          </button>
-          <button
-            className="already-member-button"
-            onClick={() => navigate("/login")}
-          >
-            Already have an account? Login
-          </button>
-        </form>
+        <button
+          className="already-member-button"
+          onClick={() => navigate("/login")}
+        >
+          Already have an account? Login
+        </button>
       </div>
+
       {isOtpPopupVisible && (
         <OtpInput
           setToastData={setToastData}
           email={email}
           setIsOtpPopupVisible={setIsOtpPopupVisible}
-          nextRoute={"/login"}
+          //   nextRoute="/login"
         />
       )}
       <Restriction flag={isOtpPopupVisible} />

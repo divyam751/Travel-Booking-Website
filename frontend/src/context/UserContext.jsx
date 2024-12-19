@@ -12,7 +12,6 @@ export const UserProvider = ({ children }) => {
 
   // Save user to sessionStorage whenever it changes
   useEffect(() => {
-    console.log("User updated");
     if (user && Object.keys(user).length > 0) {
       sessionStorage.setItem("user", JSON.stringify(user));
     }

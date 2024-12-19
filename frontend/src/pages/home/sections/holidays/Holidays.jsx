@@ -31,7 +31,6 @@ const Holidays = () => {
         Explore More
       </button>
       <div className="holidays-container__parent">
-        {console.log({ places })}
         {places.slice(0, 3).map((place) => {
           return (
             <div key={place._id} className="holidays-box">

@@ -87,7 +87,7 @@ const Details = () => {
           <span>${flightDetails?.flightPrice || "0"}</span>
         </div>
         <div className="details-row">
-          <span>No. of Passengers:</span>
+          <span>No. of Travellers:</span>
           <span>{booking?.numOfTickets || "N/A"}</span>
         </div>
         <div className="details-row total">

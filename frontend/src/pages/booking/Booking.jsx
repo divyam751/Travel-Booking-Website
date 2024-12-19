@@ -105,8 +105,7 @@ const Booking = () => {
       numOfTickets: 1,
     });
 
-    const totalAmount = await getAmount({ ...booking, ...formData });
-    // console.log({ totalAmount });
+    await getAmount({ ...booking, ...formData });
 
     setTimeout(() => {
       navigate("/confirm-booking");
@@ -131,30 +130,18 @@ const Booking = () => {
 
       // Handle API response structure
       if (response.ok && data.status === "success") {
-        // Success response
-        // return {
-        //   success: true,
-        //   transactionId: data.data.transactionId,
-        //   totalAmount: data.data.totalAmount,
-        //   message: data.message,
-        // };
         updateUser({
           transactionId: data.data.transactionId,
           totalAmount: data.data.totalAmount,
         });
-        return data.data.totalAmount;
+        return;
       } else {
         // Handle API "error" response or unexpected success structure
         console.error(
           "API Error:",
           data.message || "Unexpected error occurred"
         );
-        // return {
-        //   success: false,
-        //   message: data.message || "An unexpected error occurred",
-        //   errors: data.errors || [],
-        // };
-        return "error";
+        throw new Error(data.message || "Unexpected error occurred");
       }
     } catch (error) {
       // Handle network or unexpected errors
