@@ -1,0 +1,72 @@
+/* Overall container */
+.not-found-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  text-align: center;
+  background-color: white;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* 404 Image styling */
+.not-found-image {
+  max-width: 400px;
+  width: 100%;
+  height: auto;
+  margin-bottom: 20px;
+}
+
+/* Message under the image */
+.not-found-message {
+  font-size: 1.5rem;
+  color: #555;
+  margin-bottom: 30px;
+  max-width: 600px;
+}
+
+/* Button to navigate to homepage */
+.not-found-button {
+  font-size: 1rem;
+  padding: 10px 20px;
+  color: #fff;
+  background-color: #4caf50;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+/* Button hover effect */
+.not-found-button:hover {
+  background-color: #45a049;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .not-found-message {
+    font-size: 1.2rem;
+  }
+
+  .not-found-button {
+    font-size: 0.9rem;
+    padding: 8px 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .not-found-message {
+    font-size: 1rem;
+  }
+
+  .not-found-button {
+    font-size: 0.8rem;
+    padding: 6px 12px;
+  }
+
+  .not-found-image {
+    max-width: 300px;
+  }
+}
