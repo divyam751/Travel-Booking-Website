@@ -96,8 +96,8 @@ const resendOTP = async (req, res) => {
     }
 
     const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      return ApiResponse.error(res, [], 409, "User email already verified!");
+    if (!existingUser) {
+      return ApiResponse.error(res, [], 404, "User email not found!");
     }
 
     const otp = await generateOTP(email);
