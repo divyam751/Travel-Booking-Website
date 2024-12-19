@@ -33,5 +33,6 @@ userRouter.post("/forget-password", forgetPassword);
 
 userRouter.post("/resend-otp", resendOTP);
 userRouter.post("/check-otp", checkOTP);
+userRouter.post("/verify-email", verifyEmail);
 
 module.exports = { userRouter };

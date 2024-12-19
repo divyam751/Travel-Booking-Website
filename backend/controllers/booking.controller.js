@@ -23,10 +23,6 @@ const createBooking = async (req, res) => {
       numOfTickets,
     } = req.body;
 
-    // console.log(req.body);
-
-    // console.log({ place, hotel, flight });
-
     // Generate unique transaction ID
     const transactionId = uuidv4();
 
@@ -124,8 +120,6 @@ const getTotalAmount = async (req, res) => {
 
     const totalAmount = details?.payment?.totalAmount;
 
-    // console.log({ totalAmount });
-
     return ApiResponse.success(
       res,
       { totalAmount },
@@ -168,10 +162,6 @@ const saveBookingDetails = async (req, res) => {
     // Retrieve data from Redis using the transactionId
     const storedData = await redisClient.get(transactionId);
 
-    console.log({ storedData });
-
-    // console.log({ transactionId });
-
     if (!storedData) {
       return ApiResponse.error(
         res,
@@ -183,8 +173,6 @@ const saveBookingDetails = async (req, res) => {
 
     const bookingDetails = JSON.parse(storedData);
 
-    // console.log("req.user => ", req.user);
-
     // Prepare data to save in the Booking model
     const newBooking = new Booking({
       traveller: bookingDetails.traveller,
@@ -193,6 +181,9 @@ const saveBookingDetails = async (req, res) => {
       paid: paid,
       userId: req.user.userId,
     });
+
+    // Save the booking details in the database
+    await newBooking.save();
 
     // Send Email
     const data = {
@@ -211,18 +202,19 @@ const saveBookingDetails = async (req, res) => {
         "Arrival Time": bookingDetails.holiday.arrival,
       },
       payment: {
-        "Trip Payment": bookingDetails.payment.trip,
-        "Hotel Payment": bookingDetails.payment.hotel,
-        "Flight Payment": bookingDetails.payment.flight,
-        "Number of Travellers": bookingDetails.payment.traveller,
-        "Total Amount": bookingDetails.payment.totalAmount,
+        "Trip Payment": `$ ${bookingDetails.payment.trip}`,
+        "Hotel Payment": `$ ${bookingDetails.payment.hotel}`,
+        "Flight Payment": `$ ${bookingDetails.payment.flight}`,
+        "Number of Travellers": `${bookingDetails.payment.traveller}`,
+        "Total Amount": `$ ${bookingDetails.payment.totalAmount}`,
       },
     };
 
-    await sendTickets({ userId: req.user.userId, data: data });
-
-    // Save the booking details in the database
-    await newBooking.save();
+    await sendTickets({
+      userId: req.user.userId,
+      data: data,
+      bookingId: newBooking._id,
+    });
 
     // Remove the transaction data from Redis after successful save
     await redisClient.del(transactionId);

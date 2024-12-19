@@ -1,6 +1,5 @@
 const ApiResponse = {
   success: (res, data = {}, statusCode = 200, message = "Success") => {
-    console.log({ statusCode });
     return res.status(statusCode).json({
       status: "success",
       message,

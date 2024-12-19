@@ -96,8 +96,8 @@ const resendOTP = async (req, res) => {
     }
 
     const existingUser = await User.findOne({ email });
-    if (!existingUser) {
-      return ApiResponse.error(res, [], 404, "Email not regiesterd!");
+    if (existingUser) {
+      return ApiResponse.error(res, [], 409, "User email already verified!");
     }
 
     const otp = await generateOTP(email);
@@ -113,10 +113,8 @@ const resendOTP = async (req, res) => {
     } else {
       throw Error;
     }
-
-    // console.log("everythig good ... check email!!");
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return ApiResponse.error(res, [], 500, "Something went wrong!");
   }
 };
@@ -125,7 +123,6 @@ const resendOTP = async (req, res) => {
 const checkOTP = async (req, res) => {
   try {
     const { email, otp } = req.body;
-    console.log({ email, otp });
 
     if (!email) {
       return ApiResponse.error(
@@ -151,20 +148,20 @@ const checkOTP = async (req, res) => {
     }
 
     if (storedOTP === otp) {
-      const user = await User.findOneAndUpdate(
-        { email },
-        { isVerified: true },
-        { new: true }
-      );
+      // const user = await User.findOneAndUpdate(
+      //   { email },
+      //   { isVerified: true },
+      //   { new: true }
+      // );
 
-      if (!user) {
-        return ApiResponse.error(
-          res,
-          ["User not found in Database!"],
-          404,
-          "User not found!"
-        );
-      }
+      // if (!user) {
+      //   return ApiResponse.error(
+      //     res,
+      //     ["User not found in Database!"],
+      //     404,
+      //     "User not found!"
+      //   );
+      // }
 
       removeStoredOTP(email);
       return ApiResponse.success(res, {}, 200, "Email varified successfuly!");
@@ -198,8 +195,6 @@ const updatePassword = async (req, res) => {
     }
 
     const userId = req.user.userId; // userId is now in req.user from the authenticate middleware
-
-    console.log({ userId });
 
     // Fetch user by ID
     const user = await User.findById(userId);
@@ -272,6 +267,46 @@ const forgetPassword = async (req, res) => {
   }
 };
 
+const verifyEmail = async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    if (!email) {
+      return ApiResponse.error(res, [], 400, "Email is required");
+    }
+
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return ApiResponse.error(res, [], 409, "Email already in use");
+    }
+
+    // Send OTP to User's Email
+
+    const otp = await generateOTP(email);
+
+    const to = email;
+    const subject = "Voyawander email verification code";
+    const text = `Your OTP is ${otp}`;
+
+    await sendEmail(to, subject, text);
+
+    return ApiResponse.success(
+      res,
+      {},
+      200,
+      "OTP sent for verification successfully"
+    );
+  } catch (err) {
+    console.error("Error in OTP sending for Email verification:", err);
+    return ApiResponse.error(
+      res,
+      [err.message],
+      500,
+      "Failed to sending verication OTP email"
+    );
+  }
+};
+
 module.exports = {
   register,
   login,
@@ -279,4 +314,5 @@ module.exports = {
   checkOTP,
   updatePassword,
   forgetPassword,
+  verifyEmail,
 };
