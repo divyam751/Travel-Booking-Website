@@ -15,7 +15,16 @@ const { flightRouter } = require("./routes/flight.route");
 const app = express();
 
 app.use(express.json());
-app.use(cors());
+
+// Configure CORS
+const corsOptions = {
+  origin: "https://dc-voyawander.vercel.app",
+  optionsSuccessStatus: 200,
+};
+
+// Use CORS with options
+app.use(cors(corsOptions));
+
 app.use(redisMiddleware);
 
 app.get("/", (req, res) => {
