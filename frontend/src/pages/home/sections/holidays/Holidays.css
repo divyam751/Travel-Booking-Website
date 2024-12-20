@@ -30,7 +30,7 @@
   justify-content: center;
 }
 .holidays-box {
-  max-width: 380px;
+  width: 380px;
   /* max-height: 440px; */
   display: flex;
   flex-direction: column;
@@ -175,5 +175,79 @@
   }
   .holidays-container__parent {
     zoom: 80%;
+  }
+}
+
+.holidays-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+  background-color: #f3f3f3;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  width: 380px;
+  height: 440px;
+}
+
+.holidays-placeholder__text1 {
+  margin-top: 0.5rem;
+  width: 80%;
+  height: 30px;
+  background-color: #d0d0d0;
+  border-radius: 4px;
+  margin-top: 40px;
+}
+.holidays-placeholder__text2 {
+  margin-top: 0.5rem;
+  width: 60%;
+  height: 20px;
+  background-color: #d0d0d0;
+  border-radius: 4px;
+  margin-top: 20px;
+}
+.holidays-placeholder__text3 {
+  margin-top: 0.5rem;
+  width: 30%;
+  height: 40px;
+  background-color: #d0d0d0;
+  border-radius: 4px;
+  margin-top: 20px;
+}
+.holidays-placeholder__flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 100%;
+  margin-top: 30px;
+}
+
+.holidays-placeholder__image {
+  width: 100%;
+  height: 250px;
+  background-color: #e0e0e0;
+  border-radius: 8px;
+  position: relative; /* Required for the shine effect */
+  overflow: hidden; /* To ensure the shine stays within the element */
+}
+
+.holidays-placeholder__image::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -150%; /* Start position for the shine */
+  width: 50%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.5); /* Shine color */
+  transform: skewX(-45deg); /* Tilt the shine */
+  animation: shine 2s infinite; /* Apply the shine animation */
+}
+
+@keyframes shine {
+  0% {
+    left: -150%; /* Start off-screen */
+  }
+  100% {
+    left: 150%; /* End off-screen */
   }
 }
