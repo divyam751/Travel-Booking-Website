@@ -4,8 +4,14 @@ const {
   sendMessage,
   getAllMessages,
 } = require("../controllers/message.controller");
+const { AuthMiddleware } = require("../middlewares/auth.middleware");
 
 messageRouter.post("/", sendMessage);
-messageRouter.get("/", getAllMessages);
+messageRouter.get(
+  "/",
+  AuthMiddleware.authenticate,
+  AuthMiddleware.authorize(["admin"]),
+  getAllMessages
+);
 
 module.exports = { messageRouter };

@@ -76,7 +76,7 @@ const login = async (req, res) => {
       return ApiResponse.error(res, [], 401, "Invalid credentials");
     }
 
-    const token = jwt.sign({ userId: user._id }, SECRET_KEY, {
+    const token = jwt.sign({ userId: user._id, role: user.role }, SECRET_KEY, {
       expiresIn: "1h",
     });
 
@@ -148,21 +148,6 @@ const checkOTP = async (req, res) => {
     }
 
     if (storedOTP === otp) {
-      // const user = await User.findOneAndUpdate(
-      //   { email },
-      //   { isVerified: true },
-      //   { new: true }
-      // );
-
-      // if (!user) {
-      //   return ApiResponse.error(
-      //     res,
-      //     ["User not found in Database!"],
-      //     404,
-      //     "User not found!"
-      //   );
-      // }
-
       removeStoredOTP(email);
       return ApiResponse.success(res, {}, 200, "Email varified successfuly!");
     } else {
