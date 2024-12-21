@@ -1,17 +1,17 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useContext } from "react";
 import "./OtpInput.css";
 import axios from "axios";
 import { useLoading } from "../../context/LoadingContext";
-import { useNavigate } from "react-router";
 import { API_URL } from "../../constant";
+import { UserContext } from "../../context/UserContext";
 
-const OtpInput = ({ setToastData, email, setIsOtpPopupVisible, nextRoute }) => {
+const OtpInput = ({ setToastData, email, setIsOtpPopupVisible }) => {
   const [otp, setOtp] = useState(new Array(6).fill(""));
   const inputRefs = useRef([]);
   const { startLoading, stopLoading } = useLoading();
   const [resend, setResend] = useState(false);
 
-  const navigate = useNavigate();
+  const { updateUser } = useContext(UserContext);
 
   const handleChange = (element, index) => {
     const value = element.value.slice(-1); // Allow only the last digit
@@ -47,7 +47,6 @@ const OtpInput = ({ setToastData, email, setIsOtpPopupVisible, nextRoute }) => {
     e.preventDefault();
 
     if (otp.join("").length < 6) {
-      console.log("hereeee");
       const trigger = Date.now();
       setToastData({
         type: "error",
@@ -66,6 +65,7 @@ const OtpInput = ({ setToastData, email, setIsOtpPopupVisible, nextRoute }) => {
       });
 
       if (response.data.status === "success") {
+        updateUser({ varified: true });
         setToastData({
           type: "success",
           message: "OTP verified successfully!",
@@ -92,9 +92,6 @@ const OtpInput = ({ setToastData, email, setIsOtpPopupVisible, nextRoute }) => {
       });
     } finally {
       stopLoading();
-      setTimeout(() => {
-        navigate(nextRoute);
-      }, 3000);
     }
   };
 
@@ -144,8 +141,6 @@ const OtpInput = ({ setToastData, email, setIsOtpPopupVisible, nextRoute }) => {
       stopLoading(); // Stop loading irrespective of success or error
     }
   };
-
-  // email = "mi.divyam@gmail.com";
 
   return (
     <div className="otp-popup">

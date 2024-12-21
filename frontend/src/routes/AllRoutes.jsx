@@ -17,7 +17,6 @@ import { BookingContext } from "../context/BookingContext";
 const AllRoutes = () => {
   const { user } = useContext(UserContext);
   const { booking } = useContext(BookingContext);
-  console.log(user.location);
   return (
     <Routes>
       <Route path="/" element={<Home />} />

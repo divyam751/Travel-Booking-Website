@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import "./InputBox.css";
 import { RiVerifiedBadgeFill } from "react-icons/ri";
+import { UserContext } from "../../context/UserContext";
 
 const InputBox = ({
   name,
@@ -12,10 +13,13 @@ const InputBox = ({
   width,
   maxLength = 30,
   isDisabled = false,
+  flag = false,
 }) => {
   const [inputLabel, setInputLabel] = useState("inputBox-Empty");
   const [state, setState] = useState("password");
   const [responsiveWidth, setResponsiveWidth] = useState(width);
+
+  const { user } = useContext(UserContext);
 
   const handleFocus = () => {
     setInputLabel("inputBox-focus");
@@ -55,11 +59,10 @@ const InputBox = ({
   }, [width]);
 
   useEffect(() => {
-    // Set label to focus state when disabled
-    if (isDisabled) {
+    if (user.varified) {
       setInputLabel("inputBox-varified");
     }
-  }, [isDisabled]);
+  }, [user]);
 
   const inputType =
     label === "Password" || label === "New Password" ? state : type;
@@ -85,7 +88,7 @@ const InputBox = ({
         {(label === "Password" || label === "New Password") &&
           (state === "password" ? <FaEye /> : <FaEyeSlash />)}
       </div>
-      {label === "Email" && isDisabled && (
+      {label === "Email" && user.varified && flag && (
         <div className="inputBox-varifiedBtn">
           <span>VARIFIED</span>
           <span>

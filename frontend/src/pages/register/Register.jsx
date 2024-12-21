@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import "./Register.css";
 import InputBox from "../../components/inputbox/InputBox";
@@ -9,9 +9,11 @@ import OtpInput from "../../components/inputbox/OtpInput";
 import { useLoading } from "../../context/LoadingContext";
 import { useNavigate } from "react-router";
 import { API_URL } from "../../constant";
+import { UserContext } from "../../context/UserContext";
 
 const Register = () => {
   const { startLoading, stopLoading } = useLoading();
+  const { user } = useContext(UserContext);
   const [email, setEmail] = useState(""); // Retrieve email from session storage if available
   const [otp, setOtp] = useState("");
   const [isOtpPopupVisible, setIsOtpPopupVisible] = useState(false);
@@ -76,7 +78,6 @@ const Register = () => {
 
       if (response.data.status === "success") {
         sessionStorage.setItem("email", email); // Save email in session storage
-        setIsEmailVerified(true);
         setIsOtpPopupVisible(true);
       } else {
         setToastData({
@@ -152,7 +153,6 @@ const Register = () => {
   useEffect(() => {
     if (sessionStorage.getItem("email")) {
       setEmail(sessionStorage.getItem("email"));
-      setIsEmailVerified(true);
     }
     window.scrollTo(0, 0); // Scroll to the top
   }, []);
@@ -173,9 +173,10 @@ const Register = () => {
               value={email}
               width="400px"
               onChange={(e) => setEmail(e.target.value)}
-              isDisabled={isOtpPopupVisible || isEmailVerified}
+              isDisabled={isOtpPopupVisible || user.varified}
+              flag={true}
             />
-            {!isEmailVerified && (
+            {!user.varified && (
               <button type="submit" className="submit-button">
                 Send OTP
               </button>
@@ -183,7 +184,7 @@ const Register = () => {
           </form>
         }
         <br />
-        {isEmailVerified && (
+        {user.varified && (
           <form className="register-form" onSubmit={handleRegister}>
             <InputBox
               type="text"
@@ -192,7 +193,7 @@ const Register = () => {
               value={formData.fullname}
               width="400px"
               onChange={handleInputChange}
-              isDisabled={!isEmailVerified}
+              isDisabled={!user.varified}
             />
             <InputBox
               type="password"
@@ -201,7 +202,7 @@ const Register = () => {
               value={formData.password}
               width="400px"
               onChange={handleInputChange}
-              isDisabled={!isEmailVerified}
+              isDisabled={!user.varified}
             />
             <button type="submit" className="submit-button">
               Register
@@ -222,7 +223,6 @@ const Register = () => {
           setToastData={setToastData}
           email={email}
           setIsOtpPopupVisible={setIsOtpPopupVisible}
-          //   nextRoute="/login"
         />
       )}
       <Restriction flag={isOtpPopupVisible} />
