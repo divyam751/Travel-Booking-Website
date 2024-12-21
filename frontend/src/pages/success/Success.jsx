@@ -1,7 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./Success.css";
+import { useResetAll } from "../../utils/ResetAll";
 
 const Success = () => {
+  const resetAll = useResetAll();
+
+  useEffect(() => {
+    setTimeout(() => {
+      resetAll();
+    }, 2000);
+  }, []);
   return (
     <div className="success-container">
       <div className="success-card">

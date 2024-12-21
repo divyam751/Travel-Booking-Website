@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from "react";
+import React, { createContext, useState, useEffect, useContext } from "react";
 
 // Create Booking Context
 export const BookingContext = createContext();
@@ -22,11 +22,14 @@ export const BookingProvider = ({ children }) => {
     setBooking((prev) => ({ ...prev, ...newBooking }));
   };
 
-  // Function to update booking
+  // Function to reset booking
+  const resetBooking = () => setBooking(null);
 
   return (
-    <BookingContext.Provider value={{ booking, updateBooking }}>
+    <BookingContext.Provider value={{ booking, updateBooking, resetBooking }}>
       {children}
     </BookingContext.Provider>
   );
 };
+
+export const useBooking = () => useContext(BookingContext);

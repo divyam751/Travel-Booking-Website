@@ -4,14 +4,16 @@ import axios from "axios";
 import { useLoading } from "../../context/LoadingContext";
 import { API_URL } from "../../constant";
 import { UserContext } from "../../context/UserContext";
+import { useToast } from "../../context/ToastContext";
 
-const OtpInput = ({ setToastData, email, setIsOtpPopupVisible }) => {
+const OtpInput = ({ email, setIsOtpPopupVisible }) => {
   const [otp, setOtp] = useState(new Array(6).fill(""));
   const inputRefs = useRef([]);
   const { startLoading, stopLoading } = useLoading();
   const [resend, setResend] = useState(false);
 
   const { updateUser } = useContext(UserContext);
+  const { showToast } = useToast();
 
   const handleChange = (element, index) => {
     const value = element.value.slice(-1); // Allow only the last digit
@@ -47,13 +49,8 @@ const OtpInput = ({ setToastData, email, setIsOtpPopupVisible }) => {
     e.preventDefault();
 
     if (otp.join("").length < 6) {
-      const trigger = Date.now();
-      setToastData({
-        type: "error",
-        message: "OTP must be 6 digits!",
-        trigger: trigger.toString(),
-      });
-      console.log({ trigger });
+      showToast({ type: "error", message: "OTP must be 6 digits!" });
+
       stopLoading();
       return;
     }
@@ -66,29 +63,26 @@ const OtpInput = ({ setToastData, email, setIsOtpPopupVisible }) => {
 
       if (response.data.status === "success") {
         updateUser({ varified: true });
-        setToastData({
-          type: "success",
-          message: "OTP verified successfully!",
-        });
+
+        showToast({ type: "success", message: "OTP verified successfully!" });
+
         setOtp(new Array(6).fill(""));
         setIsOtpPopupVisible(false);
       } else {
-        setToastData({
+        showToast({
           type: "error",
           message: response.data.message || "OTP verification failed",
-          trigger: Date.now(),
         });
+
         setResend(true);
       }
     } catch (error) {
       setResend(true);
-      console.log({ error });
-      setToastData({
+      showToast({
         type: "error",
         message:
           error.response?.data?.message ||
           "An error occurred during OTP verification",
-        trigger: Date.now(),
       });
     } finally {
       stopLoading();
@@ -100,11 +94,11 @@ const OtpInput = ({ setToastData, email, setIsOtpPopupVisible }) => {
     try {
       // Validate email
       if (!email) {
-        setToastData({
+        showToast({
           type: "error",
           message: "Email is required to resend OTP!",
-          trigger: Date.now(),
         });
+
         stopLoading(); // Stop loading if there's a validation error
         return;
       }
@@ -116,26 +110,23 @@ const OtpInput = ({ setToastData, email, setIsOtpPopupVisible }) => {
 
       // Check response status and provide feedback
       if (response.data.status === "success") {
-        setToastData({
+        showToast({
           type: "success",
           message: "OTP sent successfully to your email!",
-          trigger: Date.now(),
         });
       } else {
-        setToastData({
+        showToast({
           type: "error",
           message: response.data.message || "Failed to resend OTP!",
-          trigger: Date.now(),
         });
       }
     } catch (error) {
       // Handle errors gracefully
-      setToastData({
+      showToast({
         type: "error",
         message:
           error.response?.data?.message ||
           "An error occurred while resending OTP",
-        trigger: Date.now(),
       });
     } finally {
       stopLoading(); // Stop loading irrespective of success or error

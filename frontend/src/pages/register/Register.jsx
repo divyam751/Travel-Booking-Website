@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import "./Register.css";
 import InputBox from "../../components/inputbox/InputBox";
-import Toast from "../../utils/Toast";
 import logo from "../../assets/images/logo.webp";
 import Restriction from "../../utils/Restriction";
 import OtpInput from "../../components/inputbox/OtpInput";
@@ -10,25 +9,19 @@ import { useLoading } from "../../context/LoadingContext";
 import { useNavigate } from "react-router";
 import { API_URL } from "../../constant";
 import { UserContext } from "../../context/UserContext";
+import { useToast } from "../../context/ToastContext";
 
 const Register = () => {
   const { startLoading, stopLoading } = useLoading();
-  const { user } = useContext(UserContext);
+  const { user, deleteUser } = useContext(UserContext);
   const [email, setEmail] = useState(""); // Retrieve email from session storage if available
-  const [otp, setOtp] = useState("");
   const [isOtpPopupVisible, setIsOtpPopupVisible] = useState(false);
-  const [isEmailVerified, setIsEmailVerified] = useState(false);
   const [formData, setFormData] = useState({
     fullname: "",
     password: "",
   });
 
-  const [toastData, setToastData] = useState({
-    type: null,
-    message: "",
-    trigger: 0,
-  });
-
+  const { showToast } = useToast();
   const navigate = useNavigate();
 
   const handleInputChange = (e) => {
@@ -62,11 +55,8 @@ const Register = () => {
 
     const validationError = validateEmail();
     if (validationError) {
-      setToastData({
-        type: "error",
-        message: validationError,
-        trigger: Date.now(),
-      });
+      showToast({ type: "error", message: validationError });
+
       stopLoading();
       return;
     }
@@ -80,19 +70,17 @@ const Register = () => {
         sessionStorage.setItem("email", email); // Save email in session storage
         setIsOtpPopupVisible(true);
       } else {
-        setToastData({
+        showToast({
           type: "error",
           message: response.data.message || "Email verification failed",
-          trigger: Date.now(),
         });
       }
     } catch (error) {
-      setToastData({
+      showToast({
         type: "error",
         message:
           error.response?.data?.message ||
           "An error occurred while sending OTP",
-        trigger: Date.now(),
       });
     } finally {
       stopLoading();
@@ -105,11 +93,8 @@ const Register = () => {
 
     const validationError = validateForm();
     if (validationError) {
-      setToastData({
-        type: "error",
-        message: validationError,
-        trigger: Date.now(),
-      });
+      showToast({ type: "error", message: validationError });
+
       stopLoading();
       return;
     }
@@ -122,28 +107,22 @@ const Register = () => {
       });
 
       if (response.data.status === "success") {
-        setToastData({
-          type: "success",
-          message: response.data.message,
-          trigger: Date.now(),
-        });
-        setTimeout(() => {
-          navigate("/login");
-        }, 2000);
+        showToast({ type: "success", message: response.data.message });
+        sessionStorage.removeItem("email");
+        deleteUser();
+        navigate("/login");
       } else {
-        setToastData({
+        showToast({
           type: "error",
           message: response.data.message || "Registration failed",
-          trigger: Date.now(),
         });
       }
     } catch (error) {
-      setToastData({
+      showToast({
         type: "error",
         message:
           error.response?.data?.message ||
           "An error occurred during registration",
-        trigger: Date.now(),
       });
     } finally {
       stopLoading();
@@ -219,18 +198,9 @@ const Register = () => {
       </div>
 
       {isOtpPopupVisible && (
-        <OtpInput
-          setToastData={setToastData}
-          email={email}
-          setIsOtpPopupVisible={setIsOtpPopupVisible}
-        />
+        <OtpInput email={email} setIsOtpPopupVisible={setIsOtpPopupVisible} />
       )}
       <Restriction flag={isOtpPopupVisible} />
-      <Toast
-        type={toastData.type}
-        message={toastData.message}
-        trigger={toastData.trigger}
-      />
     </div>
   );
 };

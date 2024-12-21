@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from "react";
+import React, { createContext, useState, useEffect, useContext } from "react";
 import { API_URL } from "../constant";
 
 export const DataContext = createContext();
@@ -39,9 +39,17 @@ export const DataProvider = ({ children }) => {
     fetchData("flights", setFlights, "flights");
   }, []);
 
+  const resetData = () => {
+    setFlights(null);
+    setHotels(null);
+    setPlaces(null);
+  };
+
   return (
-    <DataContext.Provider value={{ places, hotels, flights }}>
+    <DataContext.Provider value={{ places, hotels, flights, resetData }}>
       {children}
     </DataContext.Provider>
   );
 };
+
+export const useData = () => useContext(DataContext);

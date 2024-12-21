@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import axios from "axios";
 import "./Contact.css";
 
-import Toast from "../../../../utils/Toast";
 import { useLoading } from "../../../../context/LoadingContext";
 import { MdEmail } from "react-icons/md";
 import { SiGooglemessages } from "react-icons/si";
 import { FaPhoneAlt } from "react-icons/fa";
 import { API_URL } from "../../../../constant";
+import { useToast } from "../../../../context/ToastContext";
 
 const Contact = () => {
   const { startLoading, stopLoading } = useLoading();
@@ -16,11 +16,8 @@ const Contact = () => {
     mobile: "",
     message: "",
   });
-  const [toastData, setToastData] = useState({
-    type: null,
-    message: "",
-    trigger: 0,
-  });
+
+  const { showToast } = useToast();
 
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -48,11 +45,8 @@ const Contact = () => {
     startLoading();
     const validationError = validateForm();
     if (validationError) {
-      setToastData({
-        type: "error",
-        message: validationError,
-        trigger: Date.now(),
-      });
+      showToast({ type: "error", message: validationError });
+
       stopLoading();
       return;
     }
@@ -61,24 +55,19 @@ const Contact = () => {
       const response = await axios.post(`${API_URL}/messages/`, formData);
 
       if (response.status === 200 || response.data.status === "success") {
-        setToastData({
-          type: "success",
-          message: "Message sent successfully!",
-          trigger: Date.now(),
-        });
+        showToast({ type: "success", message: "Message sent successfully!" });
+
         setFormData({ email: "", mobile: "", message: "" });
       } else {
-        setToastData({
+        showToast({
           type: "error",
           message: response.data.message || "Failed to send the message",
-          trigger: Date.now(),
         });
       }
     } catch (error) {
-      setToastData({
+      showToast({
         type: "error",
         message: error.response?.data?.message || "An error occurred",
-        trigger: Date.now(),
       });
     } finally {
       stopLoading();
@@ -116,7 +105,7 @@ const Contact = () => {
             <FaPhoneAlt />
 
             <input
-              type="text"
+              type="number"
               id="mobile"
               name="mobile"
               placeholder="Mobile number"
@@ -124,6 +113,12 @@ const Contact = () => {
               onChange={handleInputChange}
               required
               className="contact-form__input"
+              onInput={(e) => {
+                // Restricting to 10 digits
+                if (e.target.value.length > 10) {
+                  e.target.value = e.target.value.slice(0, 10);
+                }
+              }}
             />
           </div>
         </div>
@@ -143,11 +138,6 @@ const Contact = () => {
           Send
         </button>
       </form>
-      <Toast
-        type={toastData.type}
-        message={toastData.message}
-        trigger={toastData.trigger}
-      />
     </section>
   );
 };

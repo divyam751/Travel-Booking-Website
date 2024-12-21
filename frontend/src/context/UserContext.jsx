@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from "react";
+import React, { createContext, useState, useEffect, useContext } from "react";
 
 // Create User Context
 export const UserContext = createContext();
@@ -21,10 +21,18 @@ export const UserProvider = ({ children }) => {
   const updateUser = (newUser) => {
     setUser((prev) => ({ ...prev, ...newUser }));
   };
+  const deleteUser = () => {
+    sessionStorage.removeItem("user");
+  };
 
+  const resetUser = () => {
+    setUser(null);
+  };
   return (
-    <UserContext.Provider value={{ user, updateUser }}>
+    <UserContext.Provider value={{ user, updateUser, deleteUser, resetUser }}>
       {children}
     </UserContext.Provider>
   );
 };
+
+export const useUser = () => useContext(UserContext);

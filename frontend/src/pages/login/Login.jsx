@@ -2,7 +2,6 @@ import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import "./Login.css";
 import InputBox from "../../components/inputbox/InputBox";
-import Toast from "../../utils/Toast";
 import logo from "../../assets/images/logo.webp";
 import Restriction from "../../utils/Restriction";
 import { useLoading } from "../../context/LoadingContext";
@@ -10,18 +9,13 @@ import { useNavigate } from "react-router";
 import { IoCloseCircleSharp } from "react-icons/io5";
 import { API_URL } from "../../constant";
 import { UserContext } from "../../context/UserContext";
+import { useToast } from "../../context/ToastContext";
 
 const Login = () => {
   const { startLoading, stopLoading } = useLoading();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
-  });
-
-  const [toastData, setToastData] = useState({
-    type: null,
-    message: "",
-    trigger: 0,
   });
 
   const [forgetPasswordPopup, setForgetPasswordPopup] = useState(false);
@@ -39,6 +33,7 @@ const Login = () => {
   const navigate = useNavigate();
 
   const { updateUser } = useContext(UserContext);
+  const { showToast } = useToast();
 
   const validateLoginForm = () => {
     const { email, password } = formData;
@@ -56,11 +51,8 @@ const Login = () => {
     startLoading();
     const validationError = validateLoginForm();
     if (validationError) {
-      setToastData({
-        type: "error",
-        message: validationError,
-        trigger: Date.now(),
-      });
+      showToast({ type: "error", message: validationError });
+
       stopLoading();
       return;
     }
@@ -69,32 +61,23 @@ const Login = () => {
       const response = await axios.post(`${API_URL}/users/login`, formData);
 
       if (response.data.status === "success") {
-        setToastData({
-          type: "success",
-          message: "Login successful!",
-          trigger: Date.now(),
-        });
+        showToast({ type: "success", message: "Login successful!" });
 
         updateUser({ token: response.data.data.token });
 
         setFormData({ email: "", password: "" }); // Reset form
-
-        setTimeout(() => {
-          navigate("/booking");
-        }, 2000);
+        navigate("/booking");
       } else {
-        setToastData({
+        showToast({
           type: "error",
           message: response.data.message || "Login failed",
-          trigger: Date.now(),
         });
       }
     } catch (error) {
-      setToastData({
+      showToast({
         type: "error",
         message:
           error.response?.data?.message || "An error occurred during login",
-        trigger: Date.now(),
       });
     } finally {
       stopLoading();
@@ -105,19 +88,15 @@ const Login = () => {
     e.preventDefault();
     startLoading();
     if (!forgetEmail) {
-      setToastData({
-        type: "error",
-        message: "Email is required!",
-        trigger: Date.now(),
-      });
+      showToast({ type: "error", message: "Email is required!" });
+
       stopLoading();
       return;
     }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(forgetEmail)) {
-      setToastData({
+      showToast({
         type: "error",
         message: "Please enter a valid email address!",
-        trigger: Date.now(),
       });
       stopLoading();
       return;
@@ -129,26 +108,21 @@ const Login = () => {
       });
 
       if (response.data.status === "success") {
-        setToastData({
-          type: "success",
-          message: "OTP sent successfully!",
-          trigger: Date.now(),
-        });
+        showToast({ type: "success", message: "OTP sent successfully!" });
+
         setIsOtpStep(true);
       } else {
-        setToastData({
+        showToast({
           type: "error",
           message: response.data.message || "Failed to send OTP",
-          trigger: Date.now(),
         });
       }
     } catch (error) {
-      setToastData({
+      showToast({
         type: "error",
         message:
           error.response?.data?.message ||
           "An error occurred during the request",
-        trigger: Date.now(),
       });
     } finally {
       stopLoading();
@@ -159,19 +133,16 @@ const Login = () => {
     e.preventDefault();
     const { otp, newPassword } = otpData;
     if (!otp || !newPassword) {
-      setToastData({
-        type: "error",
-        message: "All fields are required!",
-        trigger: Date.now(),
-      });
+      showToast({ type: "error", message: "All fields are required!" });
+
       return;
     }
     if (newPassword.length < 6) {
-      setToastData({
+      showToast({
         type: "error",
         message: "Password must be at least 6 characters long!",
-        trigger: Date.now(),
       });
+
       return;
     }
 
@@ -183,29 +154,24 @@ const Login = () => {
       });
 
       if (response.data.status === "success") {
-        setToastData({
-          type: "success",
-          message: "Password reset successful!",
-          trigger: Date.now(),
-        });
+        showToast({ type: "success", message: "Password reset successful!" });
+
         setForgetPasswordPopup(false);
         setOtpData({ otp: "", newPassword: "" });
         setForgetEmail("");
         setIsOtpStep(false);
       } else {
-        setToastData({
+        showToast({
           type: "error",
           message: response.data.message || "Failed to reset password",
-          trigger: Date.now(),
         });
       }
     } catch (error) {
-      setToastData({
+      showToast({
         type: "error",
         message:
           error.response?.data?.message ||
           "An error occurred during the request",
-        trigger: Date.now(),
       });
     }
   };
@@ -315,11 +281,6 @@ const Login = () => {
         </div>
       )}
       <Restriction flag={forgetPasswordPopup || isOtpStep} />
-      <Toast
-        type={toastData.type}
-        message={toastData.message}
-        trigger={toastData.trigger}
-      />
     </div>
   );
 };

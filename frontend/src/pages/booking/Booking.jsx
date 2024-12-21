@@ -2,12 +2,11 @@ import React, { useContext, useEffect, useState } from "react";
 
 import "./Booking.css";
 import InputBox from "../../components/inputbox/InputBox";
-import Toast from "../../utils/Toast";
 import { BookingContext } from "../../context/BookingContext";
 import { useNavigate } from "react-router";
-import axios from "axios";
 import { API_URL } from "../../constant";
 import { UserContext } from "../../context/UserContext";
+import { useToast } from "../../context/ToastContext";
 
 const Booking = () => {
   const [formData, setFormData] = useState({
@@ -19,14 +18,10 @@ const Booking = () => {
     numOfTickets: 1,
   });
 
-  const [toastData, setToastData] = useState({
-    type: "",
-    message: "",
-    trigger: false,
-  });
-
   const { booking, updateBooking } = useContext(BookingContext);
   const { updateUser } = useContext(UserContext);
+
+  const { showToast } = useToast();
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -52,50 +47,48 @@ const Booking = () => {
     e.preventDefault();
 
     // Extract form data
-    const { fullName, age, gender, address, adharNumber } = formData;
+    const { fullName, age, gender, address, adharNumber, numOfTickets } =
+      formData;
 
-    // Form validation
+    // Check for missing fields
     if (!fullName || !age || !gender || !address || !adharNumber) {
-      setToastData({
-        type: "error",
-        message: "Please fill out all fields.",
-        trigger: !toastData.trigger,
-      });
+      showToast({ type: "error", message: "Please fill out all fields." });
       return;
     }
 
-    // Age validation
+    // Validate Age (must be a number between 18 and 100)
     const ageNumber = Number(age);
     if (isNaN(ageNumber) || ageNumber < 18 || ageNumber > 100) {
-      setToastData({
+      showToast({ type: "error", message: "Age must be between 18 and 100." });
+      return;
+    }
+
+    // Validate Aadhar number (must be exactly 12 digits and numeric)
+    const adharRegex = /^[0-9]{12}$/;
+    if (!adharRegex.test(adharNumber)) {
+      showToast({
         type: "error",
-        message: "Age must be between 18 and 100.",
-        trigger: !toastData.trigger,
+        message: "Aadhar number must be exactly 12 digits and numeric.",
       });
       return;
     }
 
-    // Aadhar number validation
-    const adharRegex = /^[0-9]{12}$/;
-    if (!adharRegex.test(adharNumber)) {
-      setToastData({
+    // Validate Address (check if the address is not empty and has reasonable length)
+    if (address.length < 5) {
+      showToast({
         type: "error",
-        message: "Aadhar number must be exactly 12 digits and numeric.",
-        trigger: !toastData.trigger,
+        message: "Address must be at least 5 characters long.",
       });
       return;
     }
 
     // Success Case
-    setToastData({
-      type: "success",
-      message: "Form submitted successfully!",
-      trigger: !toastData.trigger,
-    });
+    showToast({ type: "success", message: "Form submitted successfully!" });
 
+    // Perform further actions after successful validation
     updateBooking({ ...formData });
 
-    // console.log("Form Data: ", formData);
+    // Clear form data after submission
     setFormData({
       fullName: "",
       age: "",
@@ -105,11 +98,9 @@ const Booking = () => {
       numOfTickets: 1,
     });
 
+    // Get amount and navigate to the next page
     await getAmount({ ...booking, ...formData });
-
-    setTimeout(() => {
-      navigate("/confirm-booking");
-    }, 3000);
+    navigate("/confirm-booking");
   };
 
   const getAmount = async (payload) => {
@@ -216,13 +207,13 @@ const Booking = () => {
 
           {/* Aadhar Number */}
           <InputBox
-            type="text"
+            type="number"
             name="adharNumber"
             label="Aadhar Number"
             value={formData.adharNumber}
             onChange={handleChange}
             width="100%"
-            maxLength={12}
+            maxDigits={12}
           />
 
           {/* Number of Tickets */}
@@ -244,13 +235,6 @@ const Booking = () => {
             Submit
           </button>
         </form>
-
-        {/* Toast Notification */}
-        <Toast
-          type={toastData.type}
-          message={toastData.message}
-          trigger={toastData.trigger}
-        />
       </div>
     </div>
   );

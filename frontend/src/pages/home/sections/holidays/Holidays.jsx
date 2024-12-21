@@ -40,7 +40,7 @@ const Holidays = () => {
               navigate("/destinations");
             }}
           >
-            Explore More
+            {isLoading ? "Please wait a moment" : "Explore More"}
           </button>
         </ToolTip>
       ) : (

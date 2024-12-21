@@ -12,10 +12,12 @@ const InputBox = ({
   onChange,
   width,
   maxLength = 30,
+  maxDigits = 2,
   isDisabled = false,
   flag = false,
 }) => {
   const [inputLabel, setInputLabel] = useState("inputBox-Empty");
+  const [verifyLabel, setVerifyLabel] = useState("inputBox-Empty");
   const [state, setState] = useState("password");
   const [responsiveWidth, setResponsiveWidth] = useState(width);
 
@@ -59,10 +61,10 @@ const InputBox = ({
   }, [width]);
 
   useEffect(() => {
-    if (user.varified) {
-      setInputLabel("inputBox-varified");
+    if (flag) {
+      setVerifyLabel("inputBox-varified");
     }
-  }, [user]);
+  }, []);
 
   const inputType =
     label === "Password" || label === "New Password" ? state : type;
@@ -82,8 +84,16 @@ const InputBox = ({
         style={{
           width: "100%", // Input takes full container width
         }}
+        onInput={(e) => {
+          if (inputType === "number") {
+            // Restricting to maxDigits digits
+            if (e.target.value.length > maxDigits) {
+              e.target.value = e.target.value.slice(0, maxDigits);
+            }
+          }
+        }}
       />
-      <span className={inputLabel}>{label}</span>
+      <span className={flag ? verifyLabel : inputLabel}>{label}</span>
       <div className="inputBox-showBtn" onClick={handleToggle}>
         {(label === "Password" || label === "New Password") &&
           (state === "password" ? <FaEye /> : <FaEyeSlash />)}

@@ -9,12 +9,13 @@ import {
 import axios from "axios";
 
 import "./Checkout.css";
-import Toast from "../../utils/Toast";
 import { useLoading } from "../../context/LoadingContext";
 import { API_URL } from "../../constant";
 import { UserContext } from "../../context/UserContext";
 import VisaCard from "../../components/visacard/VisaCard";
 import { useNavigate } from "react-router";
+import { useToast } from "../../context/ToastContext";
+import { useResetAll } from "../../utils/ResetAll";
 
 // Load Stripe using environment variable
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
@@ -24,11 +25,10 @@ const CheckoutForm = () => {
   const elements = useElements();
   const [payableAmount, setPayableAmount] = useState(0);
   const { startLoading, stopLoading } = useLoading();
-  const [toastData, setToastData] = useState({
-    type: "",
-    message: "",
-    trigger: false,
-  });
+
+  const resetAll = useResetAll();
+
+  const { showToast } = useToast();
 
   const navigate = useNavigate();
 
@@ -37,7 +37,11 @@ const CheckoutForm = () => {
     if (!stripe || !elements) return;
 
     startLoading(); // Show loading spinner
-    setToastData({ type: "", message: "", trigger: !toastData.trigger });
+
+    showToast({
+      type: "info",
+      message: "Please wait while we securely process your payment.",
+    });
 
     try {
       // Step 1: Request clientSecret from the backend
@@ -66,34 +70,34 @@ const CheckoutForm = () => {
       // Handle payment result
       if (result.error) {
         // Handle Stripe errors
-        setToastData({
-          type: "error",
-          message: result.error.message,
-          trigger: !toastData.trigger,
-        });
+        showToast({ type: "error", message: result.error.message });
       } else if (result.paymentIntent?.status === "succeeded") {
         // Save booking only on successful payment
         const bookingResult = await saveBooking(user.transactionId);
         if (bookingResult.success) {
-          sessionStorage.clear();
-
-          setTimeout(() => {
-            navigate("/success");
-          }, 1000);
-        } else {
-          setToastData({
-            type: "error",
-            message: bookingResult.message,
-            trigger: !toastData.trigger,
+          // resetAll();
+          showToast({
+            type: "success",
+            message: "Payment successful!",
           });
+          setTimeout(() => {
+            showToast({
+              type: "success",
+              message:
+                "Your booking is confirmed. We wish you a happy journey!",
+            });
+          }, 2000);
+
+          navigate("/success");
+        } else {
+          showToast({ type: "error", message: bookingResult.message });
         }
       }
     } catch (err) {
       console.error("Error during payment:", err);
-      setToastData({
+      showToast({
         type: "error",
         message: err.message || "Something went wrong. Please try again.",
-        trigger: !toastData.trigger,
       });
     } finally {
       stopLoading(); // Stop loading spinner
@@ -191,11 +195,6 @@ const CheckoutForm = () => {
           {`Pay $ ${payableAmount}`}
         </button>
       </form>
-      <Toast
-        type={toastData.type}
-        message={toastData.message}
-        trigger={toastData.trigger}
-      />
     </div>
   );
 };

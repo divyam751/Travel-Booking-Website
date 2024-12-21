@@ -8,6 +8,7 @@ import { LoadingProvider } from "./context/LoadingContext.jsx";
 import { DataProvider } from "./context/DataContext.jsx";
 import { BookingProvider } from "./context/BookingContext.jsx";
 import { UserProvider } from "./context/UserContext.jsx";
+import { ToastProvider } from "./context/ToastContext.jsx";
 
 createRoot(document.getElementById("root")).render(
   <LoadingProvider>
@@ -15,7 +16,9 @@ createRoot(document.getElementById("root")).render(
       <UserProvider>
         <DataProvider>
           <BrowserRouter>
-            <App />
+            <ToastProvider>
+              <App />
+            </ToastProvider>
           </BrowserRouter>
         </DataProvider>
       </UserProvider>

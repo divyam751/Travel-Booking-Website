@@ -21,14 +21,16 @@ const AllRoutes = () => {
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/destinations" element={<Destinations />} />
-      {user.location && <Route path="/hotels" element={<Hotels />} />}
-      {user.location && <Route path="/flights" element={<Flights />} />}
-      {user.token && <Route path="/booking" element={<Booking />} />}
-      {booking.place && <Route path="/confirm-booking" element={<Details />} />}
-      {user.transactionId && <Route path="/checkout" element={<Checkout />} />}
+      {user?.location && <Route path="/hotels" element={<Hotels />} />}
+      {user?.location && <Route path="/flights" element={<Flights />} />}
+      {user?.token && <Route path="/booking" element={<Booking />} />}
+      {booking?.place && (
+        <Route path="/confirm-booking" element={<Details />} />
+      )}
+      {user?.transactionId && <Route path="/checkout" element={<Checkout />} />}
       <Route path="/success" element={<Success />} />
-      {user.location && <Route path="/register" element={<Register />} />}
-      {user.location && <Route path="/login" element={<Login />} />}
+      {user?.location && <Route path="/register" element={<Register />} />}
+      {user?.location && <Route path="/login" element={<Login />} />}
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
