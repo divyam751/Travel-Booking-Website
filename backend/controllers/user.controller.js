@@ -25,16 +25,6 @@ const register = async (req, res) => {
       return ApiResponse.error(res, [], 409, "Email already in use");
     }
 
-    // Send OTP to User's Email
-
-    const otp = await generateOTP(email);
-
-    const to = email;
-    const subject = "Voyawander email verification code";
-    const text = `Your OTP is ${otp}`;
-
-    await sendEmail(to, subject, text);
-
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const user = new User({
