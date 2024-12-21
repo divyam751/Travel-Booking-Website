@@ -95,11 +95,6 @@ const resendOTP = async (req, res) => {
       return ApiResponse.error(res, [], 400, "Email is required");
     }
 
-    const existingUser = await User.findOne({ email });
-    if (!existingUser) {
-      return ApiResponse.error(res, [], 404, "User email not found!");
-    }
-
     const otp = await generateOTP(email);
 
     const to = email;
@@ -149,7 +144,12 @@ const checkOTP = async (req, res) => {
 
     if (storedOTP === otp) {
       removeStoredOTP(email);
-      return ApiResponse.success(res, {}, 200, "Email varified successfuly!");
+      return ApiResponse.success(
+        res,
+        { varified: true },
+        200,
+        "Email varified successfuly!"
+      );
     } else {
       return ApiResponse.error(
         res,
