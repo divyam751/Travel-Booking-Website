@@ -6,12 +6,15 @@ const { Flight } = require("../models/flight.model");
 const { ApiResponse } = require("../utils/ApiResponse");
 const { Booking } = require("../models/booking.model");
 const { sendTickets } = require("../utils/TicketSender");
+const xss = require("xss");
+const validator = require("validator");
 
 // Controller function to handle booking
+
 const createBooking = async (req, res) => {
   try {
-    // Extract data from request body
-    const {
+    // Extract and sanitize data from request body
+    let {
       place,
       hotel,
       flight,
@@ -22,6 +25,47 @@ const createBooking = async (req, res) => {
       adharNumber,
       numOfTickets,
     } = req.body;
+
+    // Sanitize inputs to prevent XSS attacks
+    fullName = xss(fullName);
+    address = xss(address);
+    gender = xss(gender);
+    adharNumber = xss(adharNumber);
+
+    // Validate inputs
+    if (!fullName || !validator.isLength(fullName, { min: 3, max: 50 })) {
+      return ApiResponse.error(res, [], 400, "Invalid full name");
+    }
+    if (!age || !validator.isInt(age.toString(), { min: 0, max: 99 })) {
+      return ApiResponse.error(
+        res,
+        [],
+        400,
+        "Age must be a valid number between 0 and 99"
+      );
+    }
+    if (!gender || !["Male", "Female", "Other"].includes(gender)) {
+      return ApiResponse.error(res, [], 400, "Invalid gender");
+    }
+    if (!adharNumber || !validator.matches(adharNumber, /^\d{12}$/)) {
+      return ApiResponse.error(
+        res,
+        [],
+        400,
+        "Aadhar number must be a valid 12-digit number"
+      );
+    }
+    if (!address || !validator.isLength(address, { min: 5 })) {
+      return ApiResponse.error(
+        res,
+        [],
+        400,
+        "Address must be at least 5 characters long"
+      );
+    }
+    if (!place || !hotel || !flight || !numOfTickets) {
+      return ApiResponse.error(res, [], 400, "Missing required fields");
+    }
 
     // Generate unique transaction ID
     const transactionId = uuidv4();

@@ -68,7 +68,12 @@ const login = async (req, res) => {
 
     const user = await User.findOne({ email });
     if (!user) {
-      return ApiResponse.error(res, [], 404, "User not found");
+      return ApiResponse.error(
+        res,
+        ["User not found"],
+        404,
+        "Invalid credentials"
+      );
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
@@ -210,6 +215,27 @@ const updatePassword = async (req, res) => {
 const forgetPassword = async (req, res) => {
   const { email, otp, newPassword } = req.body;
   // step-1 (send OTP in mail)
+
+  if (!email) {
+    return ApiResponse.error(
+      res,
+      ["Validation Error"],
+      401,
+      "The email field is required."
+    );
+  }
+
+  const existingUser = await User.findOne({ email });
+
+  if (!existingUser) {
+    return ApiResponse.error(
+      res,
+      ["Resource Not Found"],
+      404,
+      "The provided email is not registered. "
+    );
+  }
+
   if (email && !otp) {
     await resendOTP(req, res);
   }
