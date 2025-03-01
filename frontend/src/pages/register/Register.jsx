@@ -104,6 +104,7 @@ const Register = () => {
         fullname: formData.fullname,
         email,
         password: formData.password,
+        isVerified: user.verified,
       });
 
       if (response.data.status === "success") {
