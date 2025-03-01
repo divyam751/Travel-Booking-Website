@@ -14,7 +14,7 @@ const jwt = require("jsonwebtoken");
 // Register a new user
 const register = async (req, res) => {
   try {
-    const { fullname, email, password } = req.body;
+    const { fullname, email, password, isVerified } = req.body;
 
     if (!fullname || !email || !password) {
       return ApiResponse.error(res, [], 400, "All fields are required");
@@ -31,6 +31,7 @@ const register = async (req, res) => {
       fullname,
       email,
       password: hashedPassword,
+      isVerified,
     });
 
     await user.save();
