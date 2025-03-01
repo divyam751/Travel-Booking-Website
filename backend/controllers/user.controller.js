@@ -141,9 +141,9 @@ const checkOTP = async (req, res) => {
       removeStoredOTP(email);
       return ApiResponse.success(
         res,
-        { varified: true },
+        { verified: true },
         200,
-        "Email varified successfuly!"
+        "Email verified successfuly!"
       );
     } else {
       return ApiResponse.error(
