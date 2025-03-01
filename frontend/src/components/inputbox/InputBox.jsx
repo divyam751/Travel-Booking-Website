@@ -62,7 +62,7 @@ const InputBox = ({
 
   useEffect(() => {
     if (flag) {
-      setVerifyLabel("inputBox-varified");
+      setVerifyLabel("inputBox-verified");
     }
   }, []);
 
@@ -98,9 +98,9 @@ const InputBox = ({
         {(label === "Password" || label === "New Password") &&
           (state === "password" ? <FaEye /> : <FaEyeSlash />)}
       </div>
-      {label === "Email" && user.varified && flag && (
-        <div className="inputBox-varifiedBtn">
-          <span>VARIFIED</span>
+      {label === "Email" && user.verified && flag && (
+        <div className="inputBox-verifiedBtn">
+          <span>VERIFIED</span>
           <span>
             <RiVerifiedBadgeFill />
           </span>

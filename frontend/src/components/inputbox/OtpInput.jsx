@@ -62,7 +62,7 @@ const OtpInput = ({ email, setIsOtpPopupVisible }) => {
       });
 
       if (response.data.status === "success") {
-        updateUser({ varified: true });
+        updateUser({ verified: true });
 
         showToast({ type: "success", message: "OTP verified successfully!" });
 

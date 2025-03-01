@@ -47,7 +47,7 @@
   color: royalblue;
   z-index: 1;
 }
-.inputBox-varified {
+.inputBox-verified {
   font-size: 14px;
   position: absolute;
   left: 15px;
@@ -75,7 +75,7 @@
   z-index: 5;
   cursor: pointer;
 }
-.inputBox-varifiedBtn {
+.inputBox-verifiedBtn {
   position: absolute;
   right: 20px;
   z-index: 5;

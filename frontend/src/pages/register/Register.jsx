@@ -152,10 +152,10 @@ const Register = () => {
               value={email}
               width="400px"
               onChange={(e) => setEmail(e.target.value)}
-              isDisabled={isOtpPopupVisible || user.varified}
+              isDisabled={isOtpPopupVisible || user.verified}
               flag={true}
             />
-            {!user.varified && (
+            {!user.verified && (
               <button type="submit" className="submit-button">
                 Send OTP
               </button>
@@ -163,7 +163,7 @@ const Register = () => {
           </form>
         }
         <br />
-        {user.varified && (
+        {user.verified && (
           <form className="register-form" onSubmit={handleRegister}>
             <InputBox
               type="text"
@@ -172,7 +172,7 @@ const Register = () => {
               value={formData.fullname}
               width="400px"
               onChange={handleInputChange}
-              isDisabled={!user.varified}
+              isDisabled={!user.verified}
             />
             <InputBox
               type="password"
@@ -181,7 +181,7 @@ const Register = () => {
               value={formData.password}
               width="400px"
               onChange={handleInputChange}
-              isDisabled={!user.varified}
+              isDisabled={!user.verified}
             />
             <button type="submit" className="submit-button">
               Register
